@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>deltr hero · motion concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060606;
+    --ink: #ffffff;
+    --red: #ed1d18;
+    --edge: max(32px, calc((100% - 1300px) / 2));
+  }
+  html, body { margin: 0; height: 100%; background: var(--bg); }
+  body { font: 400 16px/24px Inter, system-ui, sans-serif; color: var(--ink); }
+  a { color: inherit; }
+
+  .hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; background: var(--bg); }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .site-header { position: absolute; inset: 0 0 auto 0; z-index: 2; height: 104px; background: rgba(10, 10, 10, 0.08); -webkit-backdrop-filter: blur(21px); backdrop-filter: blur(21px); }
+  .site-header__inner { box-sizing: border-box; height: 100%; padding: 0 var(--edge); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+  .logo { display: block; width: 189px; line-height: 0; }
+  .logo svg { width: 100%; height: auto; }
+  .nav { display: flex; list-style: none; margin: 0; padding: 0; }
+  .nav a { display: inline-flex; align-items: center; gap: 2px; padding: 9px 10px; text-decoration: none; white-space: nowrap; }
+  .nav svg { width: 16px; height: 16px; }
+  .btn-light { justify-self: end; background: #fff; color: #0a0a0a; padding: 8px 16px; border-radius: 4px; text-decoration: none; }
+
+  .hero__copy { position: absolute; z-index: 2; left: var(--edge); top: 52%; }
+  .hero__copy h1 { margin: 0; font: 700 clamp(52px, 4.23vw, 81px)/1.125 "Inria Serif", Georgia, serif; letter-spacing: -0.016em; }
+  .hero__copy p { margin: 28px 0 32px; font: 400 20px/28px "Inria Serif", Georgia, serif; }
+  .ctas { display: flex; align-items: center; gap: 16px; }
+  .btn-red { background: var(--red); padding: 12px 16px; border-radius: 4px; text-decoration: none; }
+  .link { padding: 12px 16px; text-underline-offset: 4px; }
+
+  .credit { position: absolute; z-index: 2; left: var(--edge); bottom: 28px; margin: 0; font-size: 12px; line-height: 18px; letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.45); }
+
+  @media (hover: none) { .credit .hint { display: none; } }
+
+  @media (max-width: 960px) {
+    .nav { display: none; }
+    .site-header__inner { grid-template-columns: 1fr auto; }
+    .logo { width: 132px; }
+    .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(6, 6, 6, 0.85) 0%, rgba(6, 6, 6, 0.4) 55%, rgba(6, 6, 6, 0) 80%); pointer-events: none; }
+    .hero__copy { top: auto; bottom: 96px; right: var(--edge); }
+    .hero__copy p br { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <canvas data-deltr-network aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="logo" href="#" aria-label="deltr">
+        <svg viewBox="0 0 189 39" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M88.5348 20.0051H61.6724V18.1383C61.6724 15.9823 62.6559 14.9908 64.8297 14.9908H85.1617C87.8122 14.9908 88.5348 16.0631 88.5348 18.2737V20.0051ZM86.3639 9.0555H59.8928C54.3855 9.0555 51.6949 11.5582 51.6949 17.3383V27.9645C51.6949 34.0486 55.1974 37.76 62.4431 37.76H90.422C95.8202 37.76 98.5123 35.2335 98.5123 29.6285V27.6287H88.5348V28.7382C88.5348 30.7916 87.706 31.8758 84.943 31.8758H65.3019C62.5096 31.8758 61.6724 30.7707 61.6724 28.7263V25.2753H98.5123V19.6391C98.5123 11.6485 94.7766 9.0555 86.3639 9.0555ZM103.322 37.2482H113.299V-0.000972778H103.322V37.2482ZM137.911 -0.000976562H127.933V9.56735H116.574V16.1162H127.933V26.0421C127.933 34.7732 130.619 37.2482 139.851 37.2482H154.949V30.8526H141.882C138.687 30.8526 137.911 29.7778 137.911 27.3951V19.6535C137.911 17.2044 138.564 16.1162 141.654 16.1162H154.949V9.56735H137.911V-0.000976562ZM177.767 9.0555C172.652 9.0555 170.28 9.70424 168.252 12.7396V9.56735H159.452V37.2482H169.429V20.1832C169.429 17.7355 170.275 16.7818 172.988 16.7818H188.924V9.0555H177.767ZM36.8568 27.9045C36.8568 30.2197 36.0439 31.2107 33.4157 31.2107H13.4766C10.7577 31.2107 9.99436 30.1284 9.99436 27.9596V18.8778C9.99436 16.758 10.5682 15.6048 13.6298 15.6048H33.2709C36.2304 15.6048 36.8568 16.7495 36.8568 18.907V27.9045ZM36.8568 11.6648C35.0515 9.75036 32.4178 9.0555 28.5651 9.0555H8.31548C2.69015 9.0555 0.0168457 11.5592 0.0168457 17.3655V27.9263C0.0168457 34.2713 3.57398 37.76 10.7854 37.76H28.9341C34.3581 37.76 36.4263 36.718 37.9822 34.2807V37.2482H46.8338V-0.000976562H36.8568V11.6648Z" fill="#fff"/></svg>
+      </a>
+      <ul class="nav">
+        <li><a href="#">Expertise</a></li>
+        <li><a href="#">How We Work <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6L8 10L12 6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        <li><a href="#">Resources <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6L8 10L12 6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <a class="btn-light" href="#">Get in Touch</a>
+    </div>
+  </header>
+
+  <div class="hero__copy">
+    <h1>deltr<br>Deployed.</h1>
+    <p>Ex-Palantir FDE talent ready to deploy <br>within your security and governance.</p>
+    <div class="ctas"><a class="btn-red" href="#">Deploy Now</a><a class="link" href="#">Become a deltr FDE</a></div>
+  </div>
+
+  <p class="credit">Hero motion concept by Jacques Pienaar<span class="hint"> · Move your pointer</span></p>
+</section>
+
+<script>
+/*
+  deltr hero network.
+  A plexus lattice anchored to the right edge: loose points drift in from the left and are reeled into the
+  structure, signals travel along its edges, red nodes pulse and flare when a signal arrives.
+  Every motion is periodic in LOOP seconds, so the piece loops seamlessly (and records as a clean loop).
+
+  URL options: ?intro=0 skips the build-up on load, ?t=8 freezes on that second.
+  window.deltrNetwork exposes pause(), play() and seek(seconds).
+*/
+(() => {
+  'use strict';
+
+  const LOOP = 8;           // seconds
+  const INTRO = 3.6;        // seconds of build-up on load
+  const BG = '#060606';
+  const SEED = 11;
+
+  const TAU = Math.PI * 2;
+  const clamp01 = v => (v < 0 ? 0 : v > 1 ? 1 : v);
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const smooth = (a, b, v) => { const k = clamp01((v - a) / (b - a)); return k * k * (3 - 2 * k); };
+  const outExpo = k => (k >= 1 ? 1 : 1 - Math.pow(2, -10 * k));
+  const frac = v => v - Math.floor(v);
+
+  function mulberry32(a) {
+    return () => {
+      a |= 0; a = (a + 0x6d2b79f5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function sprite(stops, size = 128) {
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const g = c.getContext('2d');
+    const gr = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    for (const [o, col] of stops) gr.addColorStop(o, col);
+    g.fillStyle = gr;
+    g.fillRect(0, 0, size, size);
+    return c;
+  }
+
+  const GLOW_RED = sprite([[0, 'rgba(255,245,242,1)'], [0.07, 'rgba(255,170,160,1)'], [0.2, 'rgba(240,60,50,0.6)'], [0.45, 'rgba(237,29,24,0.18)'], [1, 'rgba(237,29,24,0)']]);
+  const GLOW_WHITE = sprite([[0, 'rgba(255,255,255,1)'], [0.2, 'rgba(255,255,255,0.35)'], [1, 'rgba(255,255,255,0)']]);
+  const BOKEH = sprite([[0, 'rgba(255,255,255,0.9)'], [0.55, 'rgba(255,255,255,0.35)'], [1, 'rgba(255,255,255,0)']]);
+
+  // Scene, in units of U (≈ viewport height). Node x is measured leftwards from the right edge.
+  function buildScene(seed) {
+    const R = mulberry32(seed);
+    const nodes = [];
+    const fits = (x, y, z, minD) => nodes.every(n => {
+      const dx = n.x - x, dy = n.y - y, dz = (n.z - z) * 0.6;
+      return dx * dx + dy * dy + dz * dz >= minD * minD;
+    });
+    const wobble = n => Object.assign(n, {
+      ax: 0.003 + R() * 0.006, ay: 0.003 + R() * 0.006, az: 0.006 + R() * 0.01,
+      kx: 1 + Math.floor(R() * 2), ky: 1 + Math.floor(R() * 2), kz: 1 + Math.floor(R() * 2),
+      px: R() * TAU, py: R() * TAU, pz: R() * TAU,
+      r: 1.5 + Math.pow(R(), 3) * 1.6,
+      d: 0.15 + R() * 1.3,                         // intro delay
+      sx: 0.25 + R() * 0.45, sy: (R() - 0.5) * 0.2   // intro scatter offset
+    });
+
+    // Core: a leaning band, narrow at the top and widening towards the bottom.
+    let guard = 0;
+    while (nodes.length < 96 && guard++ < 8000) {
+      const y = lerp(-0.07, 1.07, R());
+      const inner = lerp(0.2, 0.09, clamp01(y));
+      const outer = lerp(0.46, 0.8, clamp01(y));
+      const x = lerp(inner, outer, Math.pow(R(), 0.85));
+      const z = (R() - 0.5) * 0.6;
+      if (fits(x, y, z, 0.056)) nodes.push(wobble({ x, y, z, arm: false }));
+    }
+    // Arms: a few sparse nodes reaching into the open space on the left.
+    guard = 0;
+    const coreCount = nodes.length;
+    while (nodes.length < coreCount + 11 && guard++ < 4000) {
+      const y = lerp(0.4, 1.03, R());
+      const x = lerp(0.82, 1.3, Math.pow(R(), 1.2));
+      const z = (R() - 0.5) * 0.3;
+      if (fits(x, y, z, 0.13)) nodes.push(wobble({ x, y, z, arm: true }));
+    }
+
+    nodes.forEach(n => {
+      n.red = !n.arm && R() < 0.22;
+      n.kp = 1 + Math.floor(R() * 2);
+      n.pp = R() * TAU;
+    });
+
+    // Edges: k nearest neighbours in 3D, plus the odd long strut for the crossed, three-dimensional read.
+    const seen = new Set();
+    const edges = [];
+    const add = (a, b) => {
+      if (a === b) return;
+      const lo = Math.min(a, b), hi = Math.max(a, b), key = lo * 1000 + hi;
+      if (seen.has(key)) return;
+      seen.add(key);
+      edges.push({ a: lo, b: hi, w: 0.55 + R() * 0.45 });
+    };
+    nodes.forEach((n, i) => {
+      const near = nodes
+        .map((m, j) => ({ j, d: Math.hypot(m.x - n.x, m.y - n.y, (m.z - n.z) * 0.8) }))
+        .filter(o => o.j !== i)
+        .sort((p, q) => p.d - q.d);
+      const k = n.arm ? 2 : 4 + (R() < 0.5 ? 1 : 0);
+      for (let q = 0; q < k; q++) if (near[q].d < (n.arm ? 0.55 : 0.24)) add(i, near[q].j);
+      if (!n.arm && R() < 0.3) {
+        const far = near[4 + Math.floor(R() * 5)];
+        if (far && far.d < 0.34) add(i, far.j);
+      }
+    });
+
+    const adj = nodes.map(() => []);
+    edges.forEach(e => { adj[e.a].push(e.b); adj[e.b].push(e.a); });
+
+    // Signals: walks through the lattice that end on a red node when they can.
+    const core = nodes.map((n, i) => i).filter(i => !nodes[i].arm);
+    const signals = [];
+    guard = 0;
+    while (signals.length < 9 && guard++ < 600) {
+      let cur = core[Math.floor(R() * core.length)], prev = -1;
+      const path = [cur];
+      for (let s = 0; s < 8; s++) {
+        const opts = adj[cur].filter(j => j !== prev && !path.includes(j));
+        if (!opts.length) break;
+        prev = cur;
+        cur = opts[Math.floor(R() * opts.length)];
+        path.push(cur);
+        if (s >= 2 && nodes[cur].red) break;
+      }
+      if (path.length >= 4 && nodes[path[path.length - 1]].red) {
+        signals.push({ path, per: 1 + Math.floor(R() * 2), ph: R() });
+      }
+    }
+
+    // Loose points on the left. q runs from the structure (0) to the far left (1).
+    const floaters = [];
+    for (let i = 0; i < 24; i++) {
+      const bokeh = R() < 0.22;
+      floaters.push({
+        q: R(), y: lerp(0.3, 0.95, R()), bokeh,
+        s: bokeh ? 0.004 + R() * 0.006 : 0.0011 + R() * 0.0015,
+        a: bokeh ? 0.1 + R() * 0.14 : 0.3 + R() * 0.45,
+        ax: 0.005 + R() * 0.008, ay: 0.005 + R() * 0.008,
+        k1: 1, k2: 1, k3: 1 + Math.floor(R() * 2),
+        p1: R() * TAU, p2: R() * TAU, p3: R() * TAU
+      });
+    }
+    // Points that get reeled into the structure: pilot to production.
+    const leftmost = nodes.map((n, i) => i).sort((a, b) => nodes[b].x - nodes[a].x).slice(0, 16);
+    const joiners = [];
+    for (let i = 0; i < 4; i++) {
+      joiners.push({ q: lerp(0.1, 0.55, R()), y: lerp(0.35, 0.92, R()), to: leftmost[Math.floor(R() * leftmost.length)], ph: i / 4 + R() * 0.06 });
+    }
+
+    return { nodes, edges, signals, floaters, joiners };
+  }
+
+  function mount(canvas) {
+    const ctx = canvas.getContext('2d');
+    const scene = buildScene(SEED);
+    const { nodes, edges, signals, floaters, joiners } = scene;
+    const N = nodes.length;
+    const SX = new Float32Array(N), SY = new Float32Array(N), SF = new Float32Array(N);
+    const DA = new Float32Array(N), NA = new Float32Array(N), FR = new Float32Array(N), FW = new Float32Array(N);
+
+    const params = new URLSearchParams(location.search);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const intro = !reduce && params.get('intro') !== '0';
+
+    let W = 0, H = 0, U = 0, dpr = 1;
+    const grid = document.createElement('canvas');
+    const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+
+    function buildGrid() {
+      grid.width = canvas.width;
+      grid.height = canvas.height;
+      const g = grid.getContext('2d');
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const s = 0.0855 * U, h = s * Math.sqrt(3) / 2, m = 0.57735, span = H * m;
+      const x0 = W - Math.ceil(W / s) * s;
+      g.strokeStyle = 'rgba(255,255,255,0.085)';
+      g.lineWidth = 1;
+      g.beginPath();
+      for (let y = 0; y <= H + h; y += h) { g.moveTo(0, y); g.lineTo(W, y); }
+      for (let x = x0 - Math.ceil(span / s) * s; x <= W + span; x += s) {
+        g.moveTo(x, 0); g.lineTo(x + span, H);
+        g.moveTo(x, 0); g.lineTo(x - span, H);
+      }
+      g.stroke();
+      g.globalCompositeOperation = 'destination-in';
+      const lg = g.createLinearGradient(W - 1.38 * U, 0, W - 0.78 * U, 0);
+      lg.addColorStop(0, 'rgba(0,0,0,0)');
+      lg.addColorStop(1, 'rgba(0,0,0,1)');
+      g.fillStyle = lg;
+      g.fillRect(0, 0, W, H);
+    }
+
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height;
+      if (!W || !H) return;
+      U = Math.min(H, W * 1.15);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (W * H * dpr * dpr > 9e6) dpr = Math.sqrt(9e6 / (W * H));
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      buildGrid();
+      draw(t);
+    }
+
+    const leftFade = x => 0.2 + 0.8 * smooth(W - 1.35 * U, W - 0.62 * U, x);
+
+    function draw(time) {
+      if (!U) return;
+      const tau = intro ? time : 99;
+      const ph = TAU * time / LOOP;
+      const k = U / 1080;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalAlpha = outExpo(clamp01(tau / 1.4));
+      ctx.drawImage(grid, 0, 0, W, H);
+      ctx.globalAlpha = 1;
+
+      // Camera: a slow sway, nudged by the pointer.
+      mouse.x += (mouse.tx - mouse.x) * 0.035;
+      mouse.y += (mouse.ty - mouse.y) * 0.035;
+      const yaw = 0.06 * Math.sin(ph) + mouse.x * 0.16;
+      const pitch = 0.022 * Math.sin(ph + 1.3) + mouse.y * 0.07;
+      const cyw = Math.cos(yaw), syw = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+      const px = W / U - 0.42, py = 0.5, CAM = 2.4;
+
+      for (let i = 0; i < N; i++) {
+        const n = nodes[i];
+        let x = W / U - n.x + n.ax * Math.sin(ph * n.kx + n.px);
+        let y = n.y + n.ay * Math.sin(ph * n.ky + n.py);
+        const z = n.z + n.az * Math.sin(ph * n.kz + n.pz);
+        let e = 1;
+        if (tau < INTRO + 1.5) {
+          e = outExpo(clamp01((tau - n.d) / 1.6));
+          x = lerp(x - n.sx, x, e);
+          y = lerp(y + n.sy, y, e);
+        }
+        const dx = x - px, dy = y - py;
+        const x1 = dx * cyw + z * syw, z1 = -dx * syw + z * cyw;
+        const y1 = dy * cp - z1 * sp, z2 = dy * sp + z1 * cp;
+        const f = CAM / (CAM + z2);
+        SX[i] = (px + x1 * f) * U;
+        SY[i] = (py + y1 * f) * U;
+        SF[i] = f;
+        DA[i] = Math.min(1, Math.max(0.35, 0.62 - z2 * 0.9));
+        NA[i] = e;
+        FR[i] = 0;
+        FW[i] = 0;
+      }
+
+      // Signals: positions this frame, and the flare they leave on arrival.
+      const live = tau > INTRO ? smooth(INTRO, INTRO + 1.5, tau) : 0;
+      const heads = [];
+      for (const s of signals) {
+        const P = LOOP / s.per, u = frac(time / P + s.ph), travel = 0.5;
+        const end = s.path[s.path.length - 1];
+        if (u >= travel) { FR[end] = Math.max(FR[end], Math.exp(-((u - travel) * P) / 0.45) * live); continue; }
+        const prog = u / travel;
+        let total = 0;
+        const segs = [];
+        for (let q = 0; q < s.path.length - 1; q++) {
+          const a = s.path[q], b = s.path[q + 1], len = Math.hypot(SX[b] - SX[a], SY[b] - SY[a]);
+          segs.push([a, b, len]);
+          total += len;
+        }
+        let dist = prog * total;
+        for (const [a, b, len] of segs) {
+          if (dist <= len) {
+            const kk = len ? dist / len : 0, tail = Math.min(dist, 0.06 * U) / (len || 1);
+            heads.push({
+              x: lerp(SX[a], SX[b], kk), y: lerp(SY[a], SY[b], kk),
+              tx: lerp(SX[a], SX[b], kk - tail), ty: lerp(SY[a], SY[b], kk - tail),
+              al: smooth(0, 0.06, prog) * (1 - smooth(0.94, 1, prog)) * live
+            });
+            break;
+          }
+          dist -= len;
+        }
+      }
+
+      // Points reeled in from the left.
+      const zoneL = 0.84, zoneR = Math.max(0.98, W / U - 0.08);
+      const reel = [];
+      for (const j of joiners) {
+        const p = frac(time / LOOP + j.ph);
+        const tr = smooth(0.08, 0.7, p);
+        const sx0 = W - lerp(zoneL, zoneR, j.q) * U, sy0 = j.y * U;
+        const x = lerp(sx0, SX[j.to], tr), y = lerp(sy0, SY[j.to], tr);
+        const al = smooth(0, 0.1, p) * (1 - smooth(0.72, 0.8, p)) * live;
+        const line = smooth(0.3, 0.5, p) * (1 - smooth(0.66, 0.72, p)) * live;
+        if (p > 0.7) FW[j.to] = Math.max(FW[j.to], Math.exp(-((p - 0.7) * LOOP) / 0.5) * live);
+        reel.push({ x, y, al, line, to: j.to });
+      }
+
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = Math.max(1, 1.1 * k);
+
+      for (const ed of edges) {
+        const a = ed.a, b = ed.b;
+        let g = 1;
+        if (tau < INTRO + 1.5) {
+          g = outExpo(clamp01((tau - Math.max(nodes[a].d, nodes[b].d) - 0.45) / 1.1));
+          if (g <= 0) continue;
+        }
+        const len = Math.hypot(SX[b] - SX[a], SY[b] - SY[a]) / U;
+        const al = 0.78 * ed.w * Math.min(DA[a], DA[b]) * leftFade((SX[a] + SX[b]) / 2) * (1 - 0.4 * smooth(0.12, 0.4, len));
+        ctx.strokeStyle = `rgba(255,255,255,${al.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(SX[a], SY[a]);
+        ctx.lineTo(lerp(SX[a], SX[b], g), lerp(SY[a], SY[b], g));
+        ctx.stroke();
+      }
+
+      for (const r of reel) {
+        if (r.line <= 0.001) continue;
+        ctx.strokeStyle = `rgba(255,255,255,${(0.32 * r.line).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(r.x, r.y);
+        ctx.lineTo(SX[r.to], SY[r.to]);
+        ctx.stroke();
+      }
+
+      for (const h of heads) {
+        if (h.al <= 0.001) continue;
+        const gr = ctx.createLinearGradient(h.tx, h.ty, h.x, h.y);
+        gr.addColorStop(0, 'rgba(255,255,255,0)');
+        gr.addColorStop(1, `rgba(255,255,255,${(0.85 * h.al).toFixed(3)})`);
+        ctx.strokeStyle = gr;
+        ctx.lineWidth = Math.max(1.2, 1.6 * k);
+        ctx.beginPath();
+        ctx.moveTo(h.tx, h.ty);
+        ctx.lineTo(h.x, h.y);
+        ctx.stroke();
+        const s = 0.016 * U;
+        ctx.globalAlpha = h.al;
+        ctx.drawImage(GLOW_WHITE, h.x - s / 2, h.y - s / 2, s, s);
+        ctx.globalAlpha = 1;
+      }
+
+      ctx.globalCompositeOperation = 'source-over';
+      for (let i = 0; i < N; i++) {
+        const n = nodes[i];
+        if (n.red || NA[i] <= 0) continue;
+        const al = 0.95 * DA[i] * NA[i] * leftFade(SX[i]);
+        ctx.fillStyle = `rgba(236,236,236,${al.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(SX[i], SY[i], n.r * k * SF[i], 0, TAU);
+        ctx.fill();
+      }
+
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < N; i++) {
+        if (FW[i] > 0.01) {
+          const s = 0.03 * U * (0.6 + FW[i] * 0.6);
+          ctx.globalAlpha = 0.55 * FW[i];
+          ctx.drawImage(GLOW_WHITE, SX[i] - s / 2, SY[i] - s / 2, s, s);
+        }
+        const n = nodes[i];
+        if (!n.red) continue;
+        const ignite = tau < INTRO + 1.5 ? outExpo(clamp01((tau - 2.2 - n.d * 0.5) / 1.1)) : 1;
+        if (ignite <= 0) continue;
+        const pulse = 0.5 + 0.5 * Math.sin(ph * n.kp + n.pp);
+        const fl = FR[i];
+        const s = U * 0.09 * (0.78 + 0.28 * pulse + 0.7 * fl) * SF[i] * ignite;
+        ctx.globalAlpha = Math.min(1, (0.75 + 0.25 * pulse + 0.4 * fl) * Math.max(DA[i], 0.7) * ignite);
+        ctx.drawImage(GLOW_RED, SX[i] - s / 2, SY[i] - s / 2, s, s);
+        ctx.globalAlpha = Math.min(1, ignite);
+        ctx.fillStyle = 'rgb(255,205,198)';
+        ctx.beginPath();
+        ctx.arc(SX[i], SY[i], 2.1 * k * SF[i], 0, TAU);
+        ctx.fill();
+      }
+
+      const pin = intro ? smooth(0.3, 1.8, tau) : 1;
+      for (const f of floaters) {
+        const x = W - (lerp(zoneL, zoneR, f.q) + f.ax * Math.sin(ph * f.k1 + f.p1)) * U;
+        const y = (f.y + f.ay * Math.sin(ph * f.k2 + f.p2)) * U;
+        const al = f.a * (0.65 + 0.35 * Math.sin(ph * f.k3 + f.p3)) * pin;
+        const s = f.s * U;
+        if (f.bokeh) {
+          ctx.globalAlpha = al;
+          ctx.drawImage(BOKEH, x - s, y - s, s * 2, s * 2);
+        } else {
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = `rgba(255,255,255,${al.toFixed(3)})`;
+          ctx.beginPath();
+          ctx.arc(x, y, s, 0, TAU);
+          ctx.fill();
+        }
+      }
+      for (const r of reel) {
+        if (r.al <= 0.001) continue;
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = `rgba(255,255,255,${(0.8 * r.al).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, 1.7 * k, 0, TAU);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    // Clock: only advances while the hero is on screen and the tab is visible.
+    const still = params.has('t') ? parseFloat(params.get('t')) || 0 : null;
+    let t = still !== null ? still : reduce ? 2 : 0, last = 0, raf = 0, onscreen = true, paused = still !== null;
+    const shouldRun = () => !reduce && !paused && onscreen && !document.hidden;
+    function tick(now) {
+      t += Math.min(0.05, (now - last) / 1000);
+      last = now;
+      draw(t);
+      raf = requestAnimationFrame(tick);
+    }
+    function sync() {
+      if (shouldRun() && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+      if (!shouldRun() && raf) { cancelAnimationFrame(raf); raf = 0; }
+    }
+
+    new ResizeObserver(resize).observe(canvas);
+    new IntersectionObserver(([e]) => { onscreen = e.isIntersecting; sync(); }).observe(canvas);
+    document.addEventListener('visibilitychange', sync);
+    window.addEventListener('pointermove', e => {
+      const r = canvas.getBoundingClientRect();
+      mouse.tx = (e.clientX - r.left) / r.width - 0.5;
+      mouse.ty = (e.clientY - r.top) / r.height - 0.5;
+    }, { passive: true });
+
+    resize();
+    sync();
+
+    return {
+      pause() { paused = true; sync(); },
+      play() { paused = false; sync(); },
+      seek(seconds) { t = seconds; draw(t); }
+    };
+  }
+
+  const canvas = document.querySelector('[data-deltr-network]');
+  window.deltrNetwork = mount(canvas);
+})();
+</script>
+</body>
+</html>
